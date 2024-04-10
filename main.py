@@ -55,7 +55,7 @@ def daily_event_checker(request):
 def send_fcm_notification(title, registration_start_str, event_type):
     registration_start = datetime.strptime(registration_start_str, "%Y-%m-%dT%H:%M:%S%z")
     topic = str(event_type)  
-    if topic != '3' and topic !='2' and topic != '1':
+    if topic not in ('1', '2', '3'):
         topic = '4'
         
     message = messaging.Message(
