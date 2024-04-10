@@ -24,7 +24,7 @@ def process_event(event):
         registration_start_str = event['attendance_event']['registration_start']
         title = event['title']
         registration_start = datetime.strptime(registration_start_str, "%Y-%m-%dT%H:%M:%S%z")
-        notification_time = registration_start - timedelta(minutes=15)
+        notification_time = registration_start - timedelta(minutes=10)
         
         now = datetime.now(pytz.utc).astimezone(registration_start.tzinfo)
         if now <= registration_start and now >= notification_time - timedelta(days=1):
@@ -55,7 +55,7 @@ def daily_event_checker(request):
 def send_fcm_notification(title, registration_start_str, event_type):
     registration_start = datetime.strptime(registration_start_str, "%Y-%m-%dT%H:%M:%S%z")
     topic = str(event_type)  
-    if topic != '3' or topic !='2' or topic != '1':
+    if topic != '3' and topic !='2' and topic != '1':
         topic = '4'
         
     message = messaging.Message(
@@ -72,5 +72,3 @@ def send_fcm_notification(title, registration_start_str, event_type):
     except Exception as e:
         return f'Error sending message: {e}'
     
-
-daily_event_checker('s')
